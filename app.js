@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const mongoose = require("mongoose");
+var encrypt = require("mongoose-encryption");
 
 const app = express();
 
@@ -19,11 +20,15 @@ app.use(express.static("public"));
 
 mongoose.connect("mongodb://127.0.0.1/userDB", { useNewUrlParser: true });
 
-// Shema
-const userSchema = {
+// Shema Obeject created from a mongoose schema class.
+const userSchema = new mongoose.Schema({
   email: String,
   password: String,
-};
+});
+
+//Adding encrypted field.
+const secret = "This is our little Secret";
+userSchema.plugin(encrypt, { secret: secret, encryptedFields: ["password"] });
 
 // Model
 const User = new mongoose.model("User", userSchema);
@@ -53,8 +58,8 @@ app.post("/register", async function (req, res) {
   }
 });
 
-// This methods check if the Username and password is true.
 
+// This methods check if the Username and password is true.
 app.post("/login", async function (req, res) {
   const username = req.body.username;
   const password = req.body.password;
