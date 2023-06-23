@@ -1,4 +1,5 @@
 //jshint esversion:6
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
@@ -58,7 +59,6 @@ app.post("/register", async function (req, res) {
   }
 });
 
-
 // This methods check if the Username and password is true.
 app.post("/login", async function (req, res) {
   const username = req.body.username;
@@ -75,5 +75,5 @@ app.post("/login", async function (req, res) {
 });
 
 app.listen(3000, function () {
-  console.log("Server started on port 3000");
+  console.log("Secrets-App Server Successfully started on port 3000");
 });
